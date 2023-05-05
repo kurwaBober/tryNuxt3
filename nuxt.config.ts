@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     ssr: true,
     proxy: {
         options: {
-            target: 'https://dragon-stage.ltcenter.info/api',
+            target: 'https://dragon-stage.ltcenter.info',
             changeOrigin: true,
             secure: false,
             pathRewrite: {

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useAppStore } from "~/stores/useApp";
-import { useTodos } from '~/stores/todos'
+import {useTodosStore} from '~/stores/todos'
 import {Api} from "~/api/Api";
+import {storeToRefs} from "pinia";
 const store = useAppStore()
 const api = new Api()
 
@@ -12,13 +13,20 @@ const api = new Api()
 // console.error("here", here.value)
 
 const ahaha = () => {
-    store.increment()
+  store.increment()
 }
 
-const todos = useTodos()
+const todos = useTodosStore();
+await todos.appInit();
 
-await todos.fetch()
-await todos.appInit()
+const { applicationInfo, todo } = storeToRefs(store);
+
+onMounted( async () => {
+    console.error("onMounted");
+    console.error("applicationInfo", applicationInfo);
+    // await todos.appInit()
+})
+
 
 // console.log("todos.todo ", todos.todo )
 
@@ -32,16 +40,29 @@ await todos.appInit()
             home
         </NuxtLink>
 
-        <div style="background: #ffbf29">
-            <div class="parent">
-                <div v-for="pr in todos.todo" class="item">
+
+        <div v-if="applicationInfo?.games">
+            <div class="gamesContainer">
+                <div v-for="game in applicationInfo?.games" class="item">
                     <div class="title">
-                        {{ pr.title }}
+                        {{ game.name }}
                     </div>
-                    <img :src="pr.image" alt="" class="img" loading="lazy">
+                    <img :src="game.image" alt="" class="img" loading="lazy">
                 </div>
             </div>
         </div>
+
+
+<!--        <div style="background: #ffbf29">-->
+<!--            <div class="parent">-->
+<!--                <div v-for="pr in todo" class="item">-->
+<!--                    <div class="title">-->
+<!--                        {{ pr.title }}-->
+<!--                    </div>-->
+<!--                    <img :src="pr.image" alt="" class="img" loading="lazy">-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
 
 
@@ -58,8 +79,8 @@ await todos.appInit()
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
-    grid-column-gap: 15px;
-    grid-row-gap: 15px;
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
     .item {
         display: flex;
         flex-direction: column;
@@ -67,11 +88,11 @@ await todos.appInit()
         align-items: center;
         border: 2px solid orange;
         border-radius: 10px;
-        padding: 10px;
+        padding: 5px;
     }
     .img {
-        height: 100px;
-        width: 100px;
+        height: 50px;
+        width: 50px;
     }
 }
 </style>
