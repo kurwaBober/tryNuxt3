@@ -1,0 +1,24 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "makeApiFromSwagger": "swagger-typescript-api -p https://dragon-stage.ltcenter.info/api/swagger -o ./api  --module-name-first-tag && prettier --config .prettierrc.js --write ./api/Api.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^18",
+    "nuxt": "^3.4.3",
+    "sass": "^1.62.1",
+    "swagger-typescript-api": "^12.0.4",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "@pinia/nuxt": "^0.4.9",
+    "nuxt-proxy": "^0.4.1",
+    "pinia": "^2.0.35"
+  }
+}
